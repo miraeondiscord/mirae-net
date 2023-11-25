@@ -27,6 +27,7 @@ public class ChannelService(RestClient rest, ILogger<ChannelService> logger) : I
 
     public Task TriggerTypingIndicatorAsync(string channelId)
     {
-        throw new NotImplementedException();
+        logger.LogInformation("Triggering typing indicator. - Channel: {id}", channelId);
+        return rest.Http.PostAsJsonAsync($"channels/{channelId}/typing", new Dictionary<string, dynamic>());
     }
 }
