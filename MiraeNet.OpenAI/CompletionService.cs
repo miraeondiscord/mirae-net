@@ -30,16 +30,7 @@ public class CompletionService
             { "messages", messages }
         };
         var response = await client.Http.PostAsJsonAsync("chat/completions", requestData, _serializerOptions);
-        try
-        {
-            response.EnsureSuccessStatusCode();
-        }
-        catch
-        {
-            logger.LogError(await response.Content.ReadAsStringAsync());
-            throw;
-        }
-
+        response.EnsureSuccessStatusCode();
         var responseData =
             await response.Content.ReadFromJsonAsync<Dictionary<string, JsonElement>>(_serializerOptions);
         var tokenCount = responseData!["usage"].GetProperty("total_tokens").GetInt32();
