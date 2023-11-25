@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Discord", "MiraeNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Host", "MiraeNet.Host\MiraeNet.Host.csproj", "{09D8767E-25B2-4341-B426-35680A006A37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.OpenAI", "MiraeNet.OpenAI\MiraeNet.OpenAI.csproj", "{978B98D5-ED6F-458E-82EC-AA9926AEFEF5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{09D8767E-25B2-4341-B426-35680A006A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D8767E-25B2-4341-B426-35680A006A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D8767E-25B2-4341-B426-35680A006A37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{978B98D5-ED6F-458E-82EC-AA9926AEFEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{978B98D5-ED6F-458E-82EC-AA9926AEFEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{978B98D5-ED6F-458E-82EC-AA9926AEFEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{978B98D5-ED6F-458E-82EC-AA9926AEFEF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

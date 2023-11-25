@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using MiraeNet.Core;
 using MiraeNet.Discord;
 using MiraeNet.Host;
+using MiraeNet.OpenAI;
 
 var builder = Host.CreateApplicationBuilder();
 
@@ -14,6 +15,12 @@ builder.Services.AddDiscord(new DiscordOptions
     Login = builder.Configuration["Discord:Login"],
     Password = builder.Configuration["Discord:Password"],
     Token = builder.Configuration["Discord:Token"]
+});
+builder.Services.AddOpenAi(new OpenAiOptions
+{
+    ApiBaseUrl = builder.Configuration["OpenAI:ApiBaseUrl"],
+    ApiKey = builder.Configuration["OpenAI:ApiKey"],
+    Model = builder.Configuration["OpenAI:Model"]
 });
 builder.Services.AddHostedService<Service>();
 
