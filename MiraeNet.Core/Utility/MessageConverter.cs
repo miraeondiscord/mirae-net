@@ -4,8 +4,8 @@ using MiraeNet.Core.Discord;
 namespace MiraeNet.Core.Utility;
 
 /// <summary>
-/// Defines utility methods for converting between <see cref="Message"/>
-/// and <see cref="CompletionMessage"/> objects.
+///     Defines utility methods for converting between <see cref="Message" />
+///     and <see cref="CompletionMessage" /> objects.
 /// </summary>
 public static class MessageConverter
 {

@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
 using MiraeNet.Core.Completion;
 using MiraeNet.Core.Discord;
-using MiraeNet.Core.Utility;
 
 namespace MiraeNet.Core;
 
@@ -17,22 +16,21 @@ public class Agent
         _logger = logger;
         eventService.MessageCreated += async message =>
         {
-            if (message.Author.Id == _discord.CurrentUser.Id)
-                return;
-            var channelId = message.ChannelId;
-            var content = message.Content ?? "null";
-            var author = message.Author.Username;
-            _logger.LogInformation("{author}: {content}", author, content);
-            var completionMessage = MessageConverter.Convert(message, _discord.CurrentUser.Id);
-            var systemMessage = new CompletionMessage
-            {
-                Role = CompletionMessageRole.System,
-                Content =
-                    "You are a chatbot designed to participate in group text conversations. With a friendly and vibrant persona, you bring energy and warmth to every discussion. You have access to users' public information, allowing you to personalize interactions and create a more engaging experience. Assume their username to be their name unless specified."
-            };
-            var convo = new List<CompletionMessage>() { systemMessage, completionMessage };
-            var generation = await completionService.CreateCompletionAsync(convo);
-            await channelService.CreateMessageAsync(channelId, generation.Content);
+            // if (message.Author.Id == _discord.CurrentUser.Id)
+            //     return;
+            // var channelId = message.ChannelId;
+            // var content = message.Content ?? "null";
+            // var author = message.Author.Username;
+            // _logger.LogInformation("{author}: {content}", author, content);
+            // var completionMessage = MessageConverter.Convert(message, _discord.CurrentUser.Id);
+            // var systemMessage = new CompletionMessage
+            // {
+            //     Role = CompletionMessageRole.System,
+            //     Content = 
+            // };
+            // var convo = new List<CompletionMessage>() { systemMessage, completionMessage };
+            // var generation = await completionService.CreateCompletionAsync(convo);
+            // await channelService.CreateMessageAsync(channelId, generation.Content);
         };
     }
 
