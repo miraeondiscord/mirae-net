@@ -5,6 +5,9 @@ using Microsoft.Extensions.Logging;
 
 namespace MiraeNet.Discord.Networking.Gateway;
 
+/// <summary>
+///     Manages the WebSocket connection and interactions with the Discord Gateway.
+/// </summary>
 public class GatewayClient
 {
     private readonly Dictionary<string, Action<IncomingPayload, WebSocketReceiveResult>> _eventSubscriptions = new();
@@ -29,11 +32,29 @@ public class GatewayClient
         });
     }
 
+    /// <summary>
+    ///     Manages the handshake process with the Gateway.
+    /// </summary>
     public GatewayHandshaker Handshaker { get; }
+
+    /// <summary>
+    ///     Manages the heartbeat mechanism for the Gateway connection.
+    /// </summary>
     public GatewayHeartbeat Heartbeat { get; }
+
+    /// <summary>
+    ///     Responsible for identifying the client to the Gateway.
+    /// </summary>
     public GatewayIdentifier Identifier { get; }
+
+    /// <summary>
+    ///     Logger for logging events and activities within the client.
+    /// </summary>
     public ILogger<GatewayClient> Logger { get; }
 
+    /// <summary>
+    ///     Represents the current state of the client.
+    /// </summary>
     public GatewayClientState State
     {
         get => _state;
@@ -70,6 +91,9 @@ public class GatewayClient
 
     #region Lifecycle Methods
 
+    /// <summary>
+    ///     Opens the connection to the Gateway.
+    /// </summary>
     public async Task StartAsync()
     {
         Logger.LogInformation("Starting Gateway client.");
@@ -77,6 +101,9 @@ public class GatewayClient
         OnWebSocketOpen();
     }
 
+    /// <summary>
+    ///     Closes the connection to the Gateway.
+    /// </summary>
     public async Task StopAsync()
     {
         Logger.LogInformation("Stopping Gateway client.");
@@ -87,16 +114,30 @@ public class GatewayClient
 
     #region Gateway Events Subscriber Methods
 
+    /// <summary>
+    ///     Subscribes to state changes of the Gateway client.
+    /// </summary>
+    /// <param name="handler">The handler to invoke on state changes.</param>
     public void SubscribeToStateChanges(Action<GatewayClientState> handler)
     {
         _stateChangeSubscriptions.Add(handler);
     }
 
+    /// <summary>
+    ///     Subscribes to messages with a specific op code.
+    /// </summary>
+    /// <param name="opCode">The op code to subscribe to.</param>
+    /// <param name="handler">The handler to invoke when a message with the op code is received.</param>
     public void SubscribeToOpCode(int opCode, Action<IncomingPayload, WebSocketReceiveResult> handler)
     {
         _opCodeSubscriptions.Add(opCode, handler);
     }
 
+    /// <summary>
+    ///     Subscribes to events raised from the Gateway.
+    /// </summary>
+    /// <param name="eventName">The name of the event to subscribe to.</param>
+    /// <param name="handler">The handler to invoke when the event is raised.</param>
     public void SubscribeToEvent(string eventName, Action<IncomingPayload, WebSocketReceiveResult> handler)
     {
         _eventSubscriptions.Add(eventName, handler);
@@ -106,11 +147,20 @@ public class GatewayClient
 
     #region WebSocket Sender Methods
 
+    /// <summary>
+    ///     Sends a raw byte array message through the WebSocket connection.
+    /// </summary>
+    /// <param name="bytes">The byte array to send.</param>
     public async Task SendBytesAsync(byte[] bytes)
     {
         await _socket.SendAsync(bytes, WebSocketMessageType.Text, true, default);
     }
 
+    /// <summary>
+    ///     Serializes and sends a payload object through the WebSocket connection.
+    /// </summary>
+    /// <typeparam name="TData">The type of the data in the payload.</typeparam>
+    /// <param name="payload">The payload to send.</param>
     public async Task SendPayloadAsync<TData>(OutgoingPayload<TData> payload)
     {
         var json = JsonSerializer.Serialize(payload);

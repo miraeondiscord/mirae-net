@@ -5,6 +5,9 @@ using MiraeNet.Discord.Networking.Rest;
 
 namespace MiraeNet.Discord;
 
+/// <summary>
+///     A managing class that manages the lifecycle and global state of Discord services.
+/// </summary>
 public class LifecycleManager(
     DiscordOptions options,
     RestClient rest,

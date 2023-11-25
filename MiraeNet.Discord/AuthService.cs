@@ -5,11 +5,20 @@ using MiraeNet.Discord.Networking.Rest;
 
 namespace MiraeNet.Discord;
 
+/// <summary>
+///     A service for authenticating and obtaining tokens.
+/// </summary>
 public class AuthService(RestClient rest, ILogger<AuthService> logger)
 {
+    /// <summary>
+    /// Logs in with the specified login ID and password.
+    /// </summary>
+    /// <param name="login">The login ID to login with.</param>
+    /// <param name="password">The password to login with.</param>
+    /// <returns>The provisioned authentication token if login was successful.</returns>
     public async Task<string> LoginAsync(string login, string password)
     {
-        logger.LogInformation("Obtaining authorization token.");
+        logger.LogInformation("Obtaining authentication token.");
         var requestData = new Dictionary<string, dynamic>
         {
             { "login", login },

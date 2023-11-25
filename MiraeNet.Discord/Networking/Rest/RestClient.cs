@@ -3,15 +3,15 @@ using Microsoft.Extensions.Logging;
 namespace MiraeNet.Discord.Networking.Rest;
 
 /// <summary>
-///     TODO: Document class summary
+///     Manages HTTP communication with the Discord REST API.
 /// </summary>
 public class RestClient
 {
     /// <summary>
-    ///     TODO: Document constructor
+    ///     Instantiates a new instance of the <see cref="RestClient"/> class.
     /// </summary>
-    /// <param name="options"></param>
-    /// <param name="logger"></param>
+    /// <param name="options">The options to use for configuring the client.</param>
+    /// <param name="logger">The logger to use for logging HTTP information.</param>
     public RestClient(DiscordOptions options, ILogger<RestClient> logger)
     {
         Http = new HttpClient(new RestDelegatingHandler(logger))
@@ -25,6 +25,10 @@ public class RestClient
     /// </summary>
     public HttpClient Http { get; }
 
+    /// <summary>
+    ///     Sets the authentication token for subsequent requests.
+    /// </summary>
+    /// <param name="token">The authentication token to use.</param>
     public void SetToken(string token)
     {
         if (string.IsNullOrEmpty(token))

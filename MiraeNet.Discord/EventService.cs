@@ -6,8 +6,12 @@ using MiraeNet.Discord.Networking.Gateway;
 namespace MiraeNet.Discord;
 
 /// <summary>
-///     A service that emits Discord gateway events.
-///     Please note that this is an incomplete definition.
+///     A service that raises Discord gateway events.
+///     For more information, see the
+///     <a href="https://discord.com/developers/docs/topics/gateway-events#receive-events">
+///         Discord Developer Documentation
+///     </a>
+///     .
 /// </summary>
 public class EventService : IEventService
 {
@@ -24,7 +28,7 @@ public class EventService : IEventService
     private void OnGatewayMessageCreated(IncomingPayload payload, WebSocketReceiveResult wsMessage)
     {
         var message = payload.GetData<Message>();
-        _logger.LogInformation("Handling message creation. - Author: {author}", message.Author.Username);
+        _logger.LogInformation("Gateway raised a message creation event. - Author: {author}", message.Author.Username);
         MessageCreated?.Invoke(message);
     }
 }

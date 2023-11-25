@@ -5,26 +5,16 @@ using MiraeNet.Discord.Networking.Rest;
 
 namespace MiraeNet.Discord;
 
+/// <summary>
+///     A service that manages Discord channels.
+///     For more information, see the
+///     <a href="https://discord.com/developers/docs/resources/channel">Discord Developer Documentation</a>.
+/// </summary>
 public class ChannelService(RestClient rest, ILogger<ChannelService> logger) : IChannelService
 {
-    public Task<Channel> GetChannelAsync(string channelId)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Channel> ModifyChannelAsync(string channelId, Dictionary<string, dynamic> modifications)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Channel> DeleteChannelAsync(string channelId)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<Message> CreateMessageAsync(string channelId, string content)
     {
-        logger.LogInformation("Creating new message in channel: {id}", channelId);
+        logger.LogInformation("Creating new message. - Channel: {id}", channelId);
         var requestData = new Dictionary<string, dynamic>
         {
             { "content", content }
