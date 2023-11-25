@@ -1,7 +1,5 @@
 namespace MiraeNet.Core.Discord;
 
-// TODO: Full spec coverage
-
 /// <summary>
 ///     Defines the API for a service that manages Discord channels.
 ///     For more information, see the
