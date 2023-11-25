@@ -1,30 +1,29 @@
 namespace MiraeNet.Core.Discord;
 
-// TODO: Full spec coverage
-
 /// <summary>
-///     Defines the contract for a service that manages Discord users.
-///     Please note that this is an incomplete definition.
+///     Defines the API for a service that manages Discord users.
+///     For more information, see the
+///     <a href="https://discord.com/developers/docs/resources/user">Discord Developer Documentation</a>.
 /// </summary>
 public interface IUserService
 {
     /// <summary>
-    ///     Get the currently logged in Discord user.
+    ///     Get the currently logged in user.
     /// </summary>
     /// <returns>
-    ///     A <see cref="Task" /> representing an asynchronous operation, which upon completion,
+    ///     A <see cref="Task" /> representing the asynchronous operation, which upon completion,
     ///     will contain the <see cref="User" /> object for the retrieved user.
     /// </returns>
     Task<User> GetCurrentUserAsync();
 
     /// <summary>
-    ///     Get a Discord user by ID.
+    ///     Get a user by ID.
     /// </summary>
     /// <param name="userId">
-    ///     The ID of the Discord user to get.
+    ///     The ID of the user to get.
     /// </param>
     /// <returns>
-    ///     A <see cref="Task" /> representing an asynchronous operation, which upon completion,
+    ///     A <see cref="Task" /> representing the asynchronous operation, which upon completion,
     ///     will contain the <see cref="User" /> object for the retrieved user.
     /// </returns>
     Task<User> GetUserAsync(string userId);
