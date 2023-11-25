@@ -32,7 +32,7 @@ public class DiscordContext
         if (string.IsNullOrEmpty(Token))
             Token = await auth.LoginAsync(options.Login!, options.Password!);
         await gateway.StartAsync();
-        throw new NotImplementedException();
+        await gateway.IdentifyAsync(Token);
     }
 
     public Task StopAsync()

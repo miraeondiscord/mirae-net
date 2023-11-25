@@ -9,12 +9,6 @@ namespace MiraeNet.Discord;
 /// </summary>
 public class EventService : IEventService
 {
-    public event Action? Opened;
-    public event Action? Readied;
-    public event Action? Reconnecting;
-    public event Action? Closed;
-    public event Action<Message>? MessageCreated;
-
     public EventService(GatewayClient gateway)
     {
         gateway.Opened += () => { Opened?.Invoke(); };
@@ -23,4 +17,10 @@ public class EventService : IEventService
         gateway.Closed += () => { Closed?.Invoke(); };
         gateway.MessageCreated += message => { MessageCreated?.Invoke(message); };
     }
+
+    public event Action? Opened;
+    public event Action? Readied;
+    public event Action? Reconnecting;
+    public event Action? Closed;
+    public event Action<Message>? MessageCreated;
 }
