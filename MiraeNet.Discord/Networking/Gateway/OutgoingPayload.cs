@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace MiraeNet.Discord.Gateway;
+namespace MiraeNet.Discord.Networking.Gateway;
 
-internal class OutgoingPayload<TData>
+public class OutgoingPayload<TData>
 {
     [JsonPropertyName("op")] public required int OpCode { get; set; }
     [JsonPropertyName("d")] public required TData Data { get; set; }

@@ -7,6 +7,8 @@ namespace MiraeNet.Discord;
 /// </summary>
 public class DiscordOptions
 {
+    public string? ApiBaseUrl { get; set; }
+    public string? GatewayUrl { get; set; }
     public string? Token { get; set; }
     public string? Login { get; set; }
     public string? Password { get; set; }

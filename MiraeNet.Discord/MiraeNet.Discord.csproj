@@ -14,4 +14,19 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Networking\" />
+      <Folder Include="Networking\Gateway\Old\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.Events.cs" />
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.Handlers.cs" />
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.Heartbeat.cs" />
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.Identify.cs" />
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.Old.cs" />
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.State.cs" />
+      <Compile Remove="Networking\Gateway\Old\GatewayClient.Status.cs" />
+    </ItemGroup>
+
 </Project>

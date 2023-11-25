@@ -3,29 +3,34 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using MiraeNet.Core.Discord;
+using MiraeNet.Discord.Networking.Gateway;
 
 namespace MiraeNet.Discord.Gateway;
 
+// does not reidentify after reconnect
+// cleanup?
+
 public partial class GatewayClient
 {
-    private readonly Dictionary<string, Action<IncomingPayload>> _eventHandlers;
+    // private readonly Dictionary<string, Action<IncomingPayload>> _eventHandlers;
     private readonly string _gatewayUrl;
+
     private readonly ILogger<GatewayClient> _logger;
-    private readonly Dictionary<int, Action<IncomingPayload>> _opCodeHandlers;
+    // private readonly Dictionary<int, Action<IncomingPayload>> _opCodeHandlers;
 
-    private int _lastSequenceIndex;
+    // private int _lastSequenceIndex;
     private ClientWebSocket _socket;
-    private GatewayClientState _state;
+    // private GatewayClientState _state;
 
-    public GatewayClient(string gatewayUrl, ILogger<GatewayClient> logger)
+    public GatewayClient(DiscordOptions options, ILogger<GatewayClient> logger)
     {
         _logger = logger;
         _socket = new ClientWebSocket();
-        _gatewayUrl = gatewayUrl;
-        _opCodeHandlers = GetOpCodeHandlers(this); // Defined in GatewayClient.Handlers.cs.
-        _eventHandlers = GetEventHandlers(this); // Defined in GatewayClient.Events.cs.
-        _state = GatewayClientState.Closed;
-        _lastSequenceIndex = 0;
+        _gatewayUrl = options.GatewayUrl!;
+        // _opCodeHandlers = GetOpCodeHandlers(this); // Defined in GatewayClient.Handlers.cs.
+        // _eventHandlers = GetEventHandlers(this); // Defined in GatewayClient.Events.cs.
+        // _state = GatewayClientState.Closed;
+        // _lastSequenceIndex = 0;
     }
 
     public event Action? Opened;
@@ -44,8 +49,8 @@ public partial class GatewayClient
     public async Task StopAsync()
     {
         _logger.LogInformation("Stopping Gateway connection.");
-        _state = GatewayClientState.Closing;
         await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure.", default);
+        // _state = GatewayClientState.Closing;
     }
 
     private async Task SendBytesAsync(byte[] bytes)

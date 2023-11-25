@@ -1,4 +1,6 @@
-namespace MiraeNet.Discord.Gateway;
+using MiraeNet.Discord.Networking.Gateway;
+
+namespace MiraeNet.Discord.Gateway.Old;
 
 public partial class GatewayClient
 {

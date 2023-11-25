@@ -1,4 +1,5 @@
 using System.Text.Json;
+using MiraeNet.Discord.Networking.Gateway;
 
 namespace MiraeNet.Discord.Gateway;
 

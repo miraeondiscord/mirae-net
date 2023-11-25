@@ -10,13 +10,13 @@ public class RestClient
     /// <summary>
     ///     TODO: Document constructor
     /// </summary>
-    /// <param name="baseUrl"></param>
+    /// <param name="options"></param>
     /// <param name="logger"></param>
-    public RestClient(string baseUrl, ILogger<RestClient> logger)
+    public RestClient(DiscordOptions options, ILogger<RestClient> logger)
     {
         Http = new HttpClient(new RestDelegatingHandler(logger))
         {
-            BaseAddress = new Uri(baseUrl)
+            BaseAddress = new Uri(options.ApiBaseUrl!)
         };
     }
 
@@ -40,7 +40,7 @@ public class RestClient
     ///     A DelegatingHandler that can be added to an <see cref="HttpClient" /> to add logging functionality.
     /// </summary>
     /// <param name="logger">The logger to use for logging request and response information.</param>
-    private class RestDelegatingHandler(ILogger<RestClient> logger) : DelegatingHandler
+    private class RestDelegatingHandler(ILogger<RestClient> logger) : DelegatingHandler(new HttpClientHandler())
     {
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)

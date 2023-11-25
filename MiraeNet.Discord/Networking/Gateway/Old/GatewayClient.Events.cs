@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using MiraeNet.Core.Discord;
+using MiraeNet.Discord.Networking.Gateway;
 
 namespace MiraeNet.Discord.Gateway;
 
