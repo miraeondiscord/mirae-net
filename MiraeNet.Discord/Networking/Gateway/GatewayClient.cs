@@ -7,19 +7,36 @@ namespace MiraeNet.Discord.Networking.Gateway;
 
 public class GatewayClient
 {
-    private readonly GatewayContext _context;
-    private readonly ClientWebSocket _socket;
-    private readonly GatewayHeartbeat _heartbeat;
-    private readonly GatewayHandshaker _handshaker;
+    private readonly Dictionary<string, Action<IncomingPayload, WebSocketReceiveResult>> _eventSubscriptions = new();
     private readonly string _gatewayUrl;
+    private readonly Dictionary<int, Action<IncomingPayload, WebSocketReceiveResult>> _opCodeSubscriptions = new();
+    private readonly ClientWebSocket _socket;
+    private readonly List<Action<GatewayClientState>> _stateChangeSubscriptions = new();
+    private GatewayClientState _state = GatewayClientState.Closed;
 
     public GatewayClient(string gatewayUrl, ILogger<GatewayClient> logger)
     {
+        Logger = logger;
         _gatewayUrl = gatewayUrl;
-        _context = new GatewayContext(logger, SendBytesAsync);
         _socket = new ClientWebSocket();
-        _heartbeat = new GatewayHeartbeat(_context);
-        _handshaker = new GatewayHandshaker(_context);
+        Heartbeat = new GatewayHeartbeat(this);
+        Handshaker = new GatewayHandshaker(this);
+        Identifier = new GatewayIdentifier(this);
+    }
+
+    public GatewayHandshaker Handshaker { get; }
+    public GatewayHeartbeat Heartbeat { get; }
+    public GatewayIdentifier Identifier { get; }
+    public ILogger<GatewayClient> Logger { get; }
+
+    public GatewayClientState State
+    {
+        get => _state;
+        set
+        {
+            _state = value;
+            foreach (var subscription in _stateChangeSubscriptions) subscription.Invoke(_state);
+        }
     }
 
     #region WebSocket Receiver Thread
@@ -40,28 +57,54 @@ public class GatewayClient
 
     #endregion
 
-    #region Public Methods
+    #region Lifecycle Methods
 
     public async Task StartAsync()
     {
-        _context.Logger.LogInformation("Starting Gateway client.");
+        Logger.LogInformation("Starting Gateway client.");
         await _socket.ConnectAsync(new Uri(_gatewayUrl), default);
         OnWebSocketOpen();
     }
 
     public async Task StopAsync()
     {
-        _context.Logger.LogInformation("Stopping Gateway client.");
+        Logger.LogInformation("Stopping Gateway client.");
         await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure.", default);
+    }
+
+    #endregion
+
+    #region Gateway Events Subscriber Methods
+
+    public void SubscribeToStateChanges(Action<GatewayClientState> handler)
+    {
+        _stateChangeSubscriptions.Add(handler);
+    }
+
+    public void SubscribeToOpCode(int opCode, Action<IncomingPayload, WebSocketReceiveResult> handler)
+    {
+        _opCodeSubscriptions.Add(opCode, handler);
+    }
+
+    public void SubscribeToEvent(string eventName, Action<IncomingPayload, WebSocketReceiveResult> handler)
+    {
+        _eventSubscriptions.Add(eventName, handler);
     }
 
     #endregion
 
     #region WebSocket Sender Methods
 
-    private async Task SendBytesAsync(byte[] bytes)
+    public async Task SendBytesAsync(byte[] bytes)
     {
         await _socket.SendAsync(bytes, WebSocketMessageType.Text, true, default);
+    }
+
+    public async Task SendPayloadAsync<TData>(OutgoingPayload<TData> payload)
+    {
+        var json = JsonSerializer.Serialize(payload);
+        var bytes = Encoding.UTF8.GetBytes(json);
+        await SendBytesAsync(bytes);
     }
 
     #endregion
@@ -70,8 +113,8 @@ public class GatewayClient
 
     private void OnWebSocketOpen()
     {
-        _context.Logger.LogInformation("Gateway connection opened.");
-        _context.State = GatewayClientState.Open;
+        Logger.LogInformation("Gateway connection opened.");
+        State = GatewayClientState.Open;
         Thread_WebSocketReceiver();
     }
 
@@ -80,8 +123,18 @@ public class GatewayClient
         if (message.MessageType == WebSocketMessageType.Text)
         {
             var json = Encoding.UTF8.GetString(bytes, 0, message.Count);
-            var payload = JsonSerializer.Deserialize<IncomingPayload>(json);
-            _context.RoutePayload(payload!, message);
+            var payload = JsonSerializer.Deserialize<IncomingPayload>(json)!;
+
+            // Dispatch payloads (0) should be handled by event handlers.
+            if (payload.OpCode == 0)
+            {
+                var validEventSubscriptions = _eventSubscriptions.Where(s => s.Key == payload.EventName!);
+                foreach (var subscription in validEventSubscriptions) subscription.Value.Invoke(payload, message);
+            }
+
+            // Otherwise, other payloads should be handled by op code handlers.
+            var validOpCodeSubscriptions = _opCodeSubscriptions.Where(s => s.Key == payload.OpCode);
+            foreach (var subscription in validOpCodeSubscriptions) subscription.Value.Invoke(payload, message);
         }
 
         if (message.MessageType == WebSocketMessageType.Close)
@@ -90,9 +143,9 @@ public class GatewayClient
 
     private void OnWebSocketClose(WebSocketCloseStatus? closeStatus, string? closeDescription)
     {
-        _context.Logger.LogInformation("Gateway connection closed: {closeDescription}", closeDescription);
+        Logger.LogInformation("Gateway connection closed: {closeDescription}", closeDescription);
         // TODO: Differentiate abnormal and graceful close
-        _context.State = GatewayClientState.Closed;
+        State = GatewayClientState.Closed;
     }
 
     #endregion

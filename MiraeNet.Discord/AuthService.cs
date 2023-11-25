@@ -1,6 +1,6 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using MiraeNet.Discord.Rest;
+using MiraeNet.Discord.Networking.Rest;
 
 namespace MiraeNet.Discord;
 

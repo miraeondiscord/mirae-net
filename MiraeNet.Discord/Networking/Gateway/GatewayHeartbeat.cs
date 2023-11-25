@@ -4,18 +4,20 @@ namespace MiraeNet.Discord.Networking.Gateway;
 
 public class GatewayHeartbeat
 {
+    private readonly GatewayClient _client;
     private Timer? _heartbeatTimer;
-    private readonly GatewayContext _context;
 
-    public GatewayHeartbeat(GatewayContext context)
+    public GatewayHeartbeat(GatewayClient client)
     {
-        _context = context;
-        _context.SubscribeToStateChanges(OnStateChange);
+        _client = client;
+        _client.SubscribeToStateChanges(OnStateChange);
     }
+
+    public int HeartbeatInterval { get; set; }
 
     private void SendHeartbeat(object? state)
     {
-        _context.Logger.LogInformation("Heartbeat.");
+        _client.Logger.LogInformation("Heartbeat.");
     }
 
     private void OnStateChange(GatewayClientState newState)
@@ -27,7 +29,7 @@ public class GatewayHeartbeat
             if (_heartbeatTimer is not null)
                 return;
 
-            _heartbeatTimer = new Timer(SendHeartbeat, default, 0, 1000);
+            _heartbeatTimer = new Timer(SendHeartbeat, default, 0, HeartbeatInterval);
         }
 
         // Stop a heartbeat, if there is one, when the client is

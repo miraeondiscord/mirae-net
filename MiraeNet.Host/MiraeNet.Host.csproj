@@ -9,7 +9,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\MiraeNet.Core\MiraeNet.Core.csproj"/>
-        <ProjectReference Include="..\MiraeNet.Discord.Hosting\MiraeNet.Discord.Hosting.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

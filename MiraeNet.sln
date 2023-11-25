@@ -5,13 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Core", "MiraeNet.Core\MiraeNet.Core.csproj", "{F72C5B8D-CFD1-44B5-B5D7-D44A20121228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Discord.Mock", "MiraeNet.Discord.Mock\MiraeNet.Discord.Mock.csproj", "{31B80B6D-8870-4808-AC45-099B2F575D62}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Discord", "MiraeNet.Discord\MiraeNet.Discord.csproj", "{79BC09A6-2A7D-499B-A91D-73FAB698ECB2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Host", "MiraeNet.Host\MiraeNet.Host.csproj", "{09D8767E-25B2-4341-B426-35680A006A37}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MiraeNet.Discord.Hosting", "MiraeNet.Discord.Hosting\MiraeNet.Discord.Hosting.csproj", "{A927A271-065A-48B5-9A62-A9FAAABA8E93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +22,6 @@ Global
 		{F72C5B8D-CFD1-44B5-B5D7-D44A20121228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F72C5B8D-CFD1-44B5-B5D7-D44A20121228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F72C5B8D-CFD1-44B5-B5D7-D44A20121228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31B80B6D-8870-4808-AC45-099B2F575D62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31B80B6D-8870-4808-AC45-099B2F575D62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31B80B6D-8870-4808-AC45-099B2F575D62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31B80B6D-8870-4808-AC45-099B2F575D62}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79BC09A6-2A7D-499B-A91D-73FAB698ECB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79BC09A6-2A7D-499B-A91D-73FAB698ECB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79BC09A6-2A7D-499B-A91D-73FAB698ECB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -38,9 +30,5 @@ Global
 		{09D8767E-25B2-4341-B426-35680A006A37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09D8767E-25B2-4341-B426-35680A006A37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09D8767E-25B2-4341-B426-35680A006A37}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A927A271-065A-48B5-9A62-A9FAAABA8E93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A927A271-065A-48B5-9A62-A9FAAABA8E93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A927A271-065A-48B5-9A62-A9FAAABA8E93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A927A271-065A-48B5-9A62-A9FAAABA8E93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

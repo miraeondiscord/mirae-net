@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 
-namespace MiraeNet.Discord.Rest;
+namespace MiraeNet.Discord.Networking.Rest;
 
 /// <summary>
 ///     TODO: Document class summary
