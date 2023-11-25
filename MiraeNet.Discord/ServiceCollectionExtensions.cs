@@ -7,6 +7,11 @@ namespace MiraeNet.Discord;
 
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds the required services for the standard implementation of the Discord API.
+    /// </summary>
+    /// <param name="services">The service collection to register services with.</param>
+    /// <param name="options">The options that will be used for configuring the services.</param>
     public static void AddDiscord(this IServiceCollection services, DiscordOptions options)
     {
         // Register options object
