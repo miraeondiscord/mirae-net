@@ -31,5 +31,5 @@ public interface IEventService
     /// <summary>
     ///     An event that is raised when a new message is created in a Discord channel.
     /// </summary>
-    event Action MessageCreated;
+    event Action<Message> MessageCreated;
 }

@@ -1,4 +1,5 @@
 using MiraeNet.Core.Discord;
+using MiraeNet.Discord.Gateway;
 
 namespace MiraeNet.Discord;
 
@@ -12,5 +13,14 @@ public class EventService : IEventService
     public event Action? Readied;
     public event Action? Reconnecting;
     public event Action? Closed;
-    public event Action? MessageCreated;
+    public event Action<Message>? MessageCreated;
+
+    public EventService(GatewayClient gateway)
+    {
+        gateway.Opened += () => { Opened?.Invoke(); };
+        gateway.Readied += () => { Readied?.Invoke(); };
+        gateway.Reconnecting += () => { Reconnecting?.Invoke(); };
+        gateway.Closed += () => { Closed?.Invoke(); };
+        gateway.MessageCreated += message => { MessageCreated?.Invoke(message); };
+    }
 }

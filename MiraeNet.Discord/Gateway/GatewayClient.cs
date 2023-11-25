@@ -2,13 +2,9 @@
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using MiraeNet.Core.Discord;
 
 namespace MiraeNet.Discord.Gateway;
-
-// TODO: Refactor to track state
-// TODO: Connect to EventService
-// TODO: Document
-// TODO: Log and recover thread exceptions
 
 public partial class GatewayClient
 {
@@ -32,6 +28,12 @@ public partial class GatewayClient
         _lastSequenceIndex = 0;
     }
 
+    public event Action? Opened;
+    public event Action? Readied;
+    public event Action? Reconnecting;
+    public event Action? Closed;
+    public event Action<Message>? MessageCreated;
+
     public async Task StartAsync()
     {
         _logger.LogInformation("Starting Gateway connection.");
@@ -42,6 +44,7 @@ public partial class GatewayClient
     public async Task StopAsync()
     {
         _logger.LogInformation("Stopping Gateway connection.");
+        _state = GatewayClientState.Closing;
         await _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Normal closure.", default);
     }
 
@@ -61,6 +64,7 @@ public partial class GatewayClient
     {
         _state = GatewayClientState.Handshaking;
         Thread_WebSocketReceive();
+        Opened?.Invoke();
     }
 
     private void HandleWebSocketMessage(WebSocketReceiveResult message, byte[] bytes)
@@ -86,13 +90,17 @@ public partial class GatewayClient
         }
 
         if (_state == GatewayClientState.Closing)
+        {
+            Closed?.Invoke();
             return;
+        }
 
         _logger.LogWarning(
-            "Gateway connection abnormally closed. Will attempt to reconnect.\n{closeStatus} {closeDescription}",
+            "Gateway connection closed abnormally. Will attempt to reconnect.\n{closeStatus} {closeDescription}",
             closeStatus,
             closeDescription);
 
+        Reconnecting?.Invoke();
         _socket = new ClientWebSocket();
         _ = StartAsync();
     }

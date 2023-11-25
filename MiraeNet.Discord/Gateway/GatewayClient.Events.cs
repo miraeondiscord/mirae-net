@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using MiraeNet.Core.Discord;
 
 namespace MiraeNet.Discord.Gateway;
@@ -21,12 +22,14 @@ public partial class GatewayClient
 
     private void HandleReadyEvent(IncomingPayload payload)
     {
+        _logger.LogInformation("Gateway connection is ready.");
         _state = GatewayClientState.Open;
+        Readied?.Invoke();
     }
 
     private void HandleMessageCreateEvent(IncomingPayload payload)
     {
         var message = payload.GetData<Message>();
-        // OnMessageCreated?.Invoke(message);
+        MessageCreated?.Invoke(message);
     }
 }
