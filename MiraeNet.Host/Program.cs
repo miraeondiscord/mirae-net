@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MiraeNet.Core;
 using MiraeNet.Discord;
-using MiraeNet.Discord.Hosting;
 using MiraeNet.Host;
 
 var builder = Host.CreateApplicationBuilder();
 
-builder.Services.AddDiscordServices(new DiscordOptions
+builder.Services.AddCore();
+builder.Services.AddDiscord(new DiscordOptions
 {
     ApiBaseUrl = builder.Configuration["Discord:ApiBaseUrl"],
     GatewayUrl = builder.Configuration["Discord:GatewayUrl"],
@@ -14,7 +15,7 @@ builder.Services.AddDiscordServices(new DiscordOptions
     Password = builder.Configuration["Discord:Password"],
     Token = builder.Configuration["Discord:Token"]
 });
-builder.Services.AddHostedService<Mirae>();
+builder.Services.AddHostedService<Service>();
 
 var app = builder.Build();
 app.Run();

@@ -14,10 +14,10 @@ public class GatewayClient
     private readonly List<Action<GatewayClientState>> _stateChangeSubscriptions = new();
     private GatewayClientState _state = GatewayClientState.Closed;
 
-    public GatewayClient(string gatewayUrl, ILogger<GatewayClient> logger)
+    public GatewayClient(DiscordOptions options, ILogger<GatewayClient> logger)
     {
         Logger = logger;
-        _gatewayUrl = gatewayUrl;
+        _gatewayUrl = options.GatewayUrl!;
         _socket = new ClientWebSocket();
         Heartbeat = new GatewayHeartbeat(this);
         Handshaker = new GatewayHandshaker(this);
@@ -43,14 +43,21 @@ public class GatewayClient
 
     private void Thread_WebSocketReceiver()
     {
-        // TODO: Handle thread crashes
         Task.Run(async () =>
         {
             while (_socket.State == WebSocketState.Open)
             {
-                var bytes = new byte[409600]; // Discord sends big messages :P
-                var message = await _socket.ReceiveAsync(bytes, default);
-                OnWebSocketMessage(message, bytes);
+                try
+                {
+                    var bytes = new byte[409600]; // Discord sends big messages :P
+                    var message = await _socket.ReceiveAsync(bytes, default);
+                    OnWebSocketMessage(message, bytes);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex,
+                        "An unhandled exception occurred in the receiver thread. It has been caught and the thread will continue execution.");
+                }
             }
         });
     }

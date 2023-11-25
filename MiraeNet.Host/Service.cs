@@ -1,17 +1,18 @@
 using Microsoft.Extensions.Hosting;
+using MiraeNet.Core;
 using MiraeNet.Core.Discord;
 
 namespace MiraeNet.Host;
 
-public class Mirae(IDiscordContext discord) : IHostedService
+public class Service(Agent agent) : IHostedService
 {
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        return discord.StartAsync();
+        return agent.StartAsync();
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
     {
-        return discord.StopAsync();
+        return agent.StopAsync();
     }
 }
