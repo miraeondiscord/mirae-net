@@ -8,7 +8,7 @@ namespace MiraeNet.Discord.Networking.Rest;
 public class RestClient
 {
     /// <summary>
-    ///     Instantiates a new instance of the <see cref="RestClient"/> class.
+    ///     Instantiates a new instance of the <see cref="RestClient" /> class.
     /// </summary>
     /// <param name="options">The options to use for configuring the client.</param>
     /// <param name="logger">The logger to use for logging HTTP information.</param>

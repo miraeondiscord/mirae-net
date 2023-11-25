@@ -33,7 +33,7 @@ public class GatewayClient
     }
 
     /// <summary>
-    ///     The sequence index (s field) of the last payload that had one. 
+    ///     The sequence index (s field) of the last payload that had one.
     /// </summary>
     public int LastSequenceIndex { get; private set; }
 

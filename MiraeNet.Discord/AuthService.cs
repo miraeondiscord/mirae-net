@@ -11,7 +11,7 @@ namespace MiraeNet.Discord;
 public class AuthService(RestClient rest, ILogger<AuthService> logger)
 {
     /// <summary>
-    /// Logs in with the specified login ID and password.
+    ///     Logs in with the specified login ID and password.
     /// </summary>
     /// <param name="login">The login ID to login with.</param>
     /// <param name="password">The password to login with.</param>

@@ -16,6 +16,8 @@ public class LifecycleManager(
     IUserService user,
     ILogger<LifecycleManager> logger) : ILifecycleManager
 {
+    private User? _user;
+
     public User CurrentUser
     {
         get
@@ -26,8 +28,6 @@ public class LifecycleManager(
             return _user;
         }
     }
-
-    private User? _user;
 
     public async Task StartAsync()
     {
