@@ -33,6 +33,11 @@ public class GatewayClient
     }
 
     /// <summary>
+    ///     The sequence index (s field) of the last payload that had one. 
+    /// </summary>
+    public int LastSequenceIndex { get; private set; }
+
+    /// <summary>
     ///     Manages the handshake process with the Gateway.
     /// </summary>
     public GatewayHandshaker Handshaker { get; }
@@ -185,6 +190,9 @@ public class GatewayClient
         {
             var json = Encoding.UTF8.GetString(bytes, 0, message.Count);
             var payload = JsonSerializer.Deserialize<IncomingPayload>(json)!;
+
+            if (payload.SequenceIndex is not null)
+                LastSequenceIndex = payload.SequenceIndex.Value;
 
             // Dispatch payloads (0) should be handled by event handlers.
             if (payload.OpCode == 0)

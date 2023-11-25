@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging;
-
 namespace MiraeNet.Discord.Networking.Gateway;
 
 public class GatewayHeartbeat
@@ -17,7 +15,12 @@ public class GatewayHeartbeat
 
     private void SendHeartbeat(object? state)
     {
-        _client.Logger.LogInformation("Heartbeat.");
+        var payload = new OutgoingPayload<int>
+        {
+            OpCode = 1,
+            Data = _client.LastSequenceIndex
+        };
+        _ = _client.SendPayloadAsync(payload);
     }
 
     private void OnStateChange(GatewayClientState newState)
