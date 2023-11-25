@@ -7,7 +7,8 @@ namespace MiraeNet.Discord;
 
 /// <summary>
 ///     A service that manages Discord users.
-///     Please note that this is an incomplete definition.
+///     For more information, see the
+///     <a href="https://discord.com/developers/docs/resources/user">Discord Developer Documentation</a>.
 /// </summary>
 public class UserService(RestClient rest, ILogger<UserService> logger) : IUserService
 {
