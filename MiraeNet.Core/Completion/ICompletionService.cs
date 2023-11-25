@@ -1,7 +1,7 @@
 namespace MiraeNet.Core.Completion;
 
 /// <summary>
-///     Defines the contract for service that creates chat completions using
+///     Defines the API for a service that creates chat completions using
 ///     a Large Language Model (LLM).
 /// </summary>
 public interface ICompletionService
