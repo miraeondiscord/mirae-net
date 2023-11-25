@@ -1,9 +1,9 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace MiraeNet.Discord.Gateway;
+namespace MiraeNet.Discord.Networking.Gateway;
 
-internal class IncomingPayload
+public class IncomingPayload
 {
     [JsonPropertyName("op")] public required int OpCode { get; set; }
     [JsonPropertyName("t")] public string? EventName { get; set; }

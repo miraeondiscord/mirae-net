@@ -1,17 +1,17 @@
 namespace MiraeNet.Core.Discord;
 
 /// <summary>
-///     Represents the context in which Discord-related services are running in.
+///     Defines the API for a managing class that manages the lifecycle and global state of Discord services.
 /// </summary>
-public interface IDiscordContext
+public interface ILifecycleManager
 {
     /// <summary>
-    ///     The <see cref="User" /> instance for the currently logged in user.
+    ///     The currently logged in User.
     /// </summary>
-    User MyUser { get; }
+    User CurrentUser { get; }
 
     /// <summary>
-    ///     Setup the necessary network connections and login to Discord.
+    ///     Start all the Discord services and login to Discord.
     /// </summary>
     /// <returns>
     ///     A <see cref="Task" /> representing the asynchronous operation.
@@ -19,8 +19,8 @@ public interface IDiscordContext
     Task StartAsync();
 
     /// <summary>
-    ///     Stop all network connections to Discord. This method is not guaranteed
-    ///     to be reversible.
+    ///     Stop all the Discord services.
+    ///     This operation is not guaranteed to be reversible.
     /// </summary>
     /// <returns>
     ///     A <see cref="Task" /> representing the asynchronous operation.

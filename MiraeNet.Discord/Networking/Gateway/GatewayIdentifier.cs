@@ -1,11 +1,13 @@
 using System.Text.Json.Serialization;
+using Microsoft.Extensions.Logging;
 
-namespace MiraeNet.Discord.Gateway;
+namespace MiraeNet.Discord.Networking.Gateway;
 
-public partial class GatewayClient
+public class GatewayIdentifier(GatewayClient client)
 {
     public async Task IdentifyAsync(string token)
     {
+        client.Logger.LogInformation("Sending identification to gateway.");
         var data = IdentifyPayloadData.Forge();
         data.Token = token;
         var payload = new OutgoingPayload<IdentifyPayloadData>
@@ -13,7 +15,7 @@ public partial class GatewayClient
             OpCode = 2,
             Data = data
         };
-        await SendPayloadAsync(payload);
+        await client.SendPayloadAsync(payload);
     }
 }
 
