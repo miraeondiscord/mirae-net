@@ -78,17 +78,17 @@ public enum ChannelType
     GuildAnnouncement = 5,
 
     /// <summary>
-    ///     A temporary sub-channel within a <see cref="GuildAnnouncement"/> channel.
+    ///     A temporary sub-channel within a <see cref="GuildAnnouncement" /> channel.
     /// </summary>
     AnnouncementThread = 10,
 
     /// <summary>
-    ///     A temporary sub-channel within a <see cref="GuildText"/> or <see cref="GuildForum"/> channel.
+    ///     A temporary sub-channel within a <see cref="GuildText" /> or <see cref="GuildForum" /> channel.
     /// </summary>
     PublicThread = 11,
 
     /// <summary>
-    ///     A temporary sub-channel within a <see cref="GuildText"/> channel that is only
+    ///     A temporary sub-channel within a <see cref="GuildText" /> channel that is only
     ///     viewable by those invited and those with the MANAGE_THREADS permission.
     /// </summary>
     PrivateThread = 12,
@@ -109,7 +109,7 @@ public enum ChannelType
     GuildForum = 15,
 
     /// <summary>
-    ///     A channel that can only contain threads, similar to <see cref="GuildForum"/> channels.
+    ///     A channel that can only contain threads, similar to <see cref="GuildForum" /> channels.
     /// </summary>
     GuildMedia = 16
 }
