@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\MiraeNet.Core\MiraeNet.Core.csproj"/>
-        <ProjectReference Include="..\MiraeNet.Discord\MiraeNet.Discord.csproj" />
+        <ProjectReference Include="..\MiraeNet.Discord\MiraeNet.Discord.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

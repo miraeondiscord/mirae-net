@@ -1,22 +1,13 @@
-using System.Net.WebSockets;
 using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
 
 namespace MiraeNet.Discord.Networking.Gateway;
 
-public class GatewayIdentifier
+public class GatewayIdentifier(GatewayClient client)
 {
-    private readonly GatewayClient _client;
-
-    public GatewayIdentifier(GatewayClient client)
-    {
-        _client = client;
-        _client.SubscribeToEvent("READY", OnGatewayReady);
-    }
-
     public async Task IdentifyAsync(string token)
     {
-        _client.Logger.LogInformation("Sending identification to gateway.");
+        client.Logger.LogInformation("Sending identification to gateway.");
         var data = IdentifyPayloadData.Forge();
         data.Token = token;
         var payload = new OutgoingPayload<IdentifyPayloadData>
@@ -24,12 +15,7 @@ public class GatewayIdentifier
             OpCode = 2,
             Data = data
         };
-        await _client.SendPayloadAsync(payload);
-    }
-
-    private void OnGatewayReady(IncomingPayload incomingPayload, WebSocketReceiveResult webSocketReceiveResult)
-    {
-        _client.Logger.LogInformation("READY");
+        await client.SendPayloadAsync(payload);
     }
 }
 

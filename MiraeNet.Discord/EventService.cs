@@ -1,3 +1,5 @@
+using System.Net.WebSockets;
+using Microsoft.Extensions.Logging;
 using MiraeNet.Core.Discord;
 using MiraeNet.Discord.Networking.Gateway;
 
@@ -9,18 +11,20 @@ namespace MiraeNet.Discord;
 /// </summary>
 public class EventService : IEventService
 {
-    public EventService(GatewayClient gateway)
+    private readonly ILogger<EventService> _logger;
+
+    public EventService(GatewayClient gateway, ILogger<EventService> logger)
     {
-        // gateway.Opened += () => { Opened?.Invoke(); };
-        // gateway.Readied += () => { Readied?.Invoke(); };
-        // gateway.Reconnecting += () => { Reconnecting?.Invoke(); };
-        // gateway.Closed += () => { Closed?.Invoke(); };
-        // gateway.MessageCreated += message => { MessageCreated?.Invoke(message); };
+        _logger = logger;
+        gateway.SubscribeToEvent("MESSAGE_CREATE", OnGatewayMessageCreated);
     }
 
-    public event Action? Opened;
-    public event Action? Readied;
-    public event Action? Reconnecting;
-    public event Action? Closed;
     public event Action<Message>? MessageCreated;
+
+    private void OnGatewayMessageCreated(IncomingPayload payload, WebSocketReceiveResult wsMessage)
+    {
+        var message = payload.GetData<Message>();
+        _logger.LogInformation("Handling message creation. - Author: {author}", message.Author.Username);
+        MessageCreated?.Invoke(message);
+    }
 }

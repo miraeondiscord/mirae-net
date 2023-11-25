@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Hosting;
 using MiraeNet.Core;
-using MiraeNet.Core.Discord;
 
 namespace MiraeNet.Host;
 

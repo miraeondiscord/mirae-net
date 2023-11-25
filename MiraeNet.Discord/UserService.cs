@@ -1,4 +1,7 @@
+using System.Net.Http.Json;
+using Microsoft.Extensions.Logging;
 using MiraeNet.Core.Discord;
+using MiraeNet.Discord.Networking.Rest;
 
 namespace MiraeNet.Discord;
 
@@ -6,11 +9,15 @@ namespace MiraeNet.Discord;
 ///     A service that manages Discord users.
 ///     Please note that this is an incomplete definition.
 /// </summary>
-public class UserService : IUserService
+public class UserService(RestClient rest, ILogger<UserService> logger) : IUserService
 {
-    public Task<User> GetMyUserAsync()
+    public async Task<User> GetCurrentUserAsync()
     {
-        throw new NotImplementedException();
+        logger.LogInformation("Getting current user info.");
+        var response = await rest.Http.GetAsync("users/@me");
+        response.EnsureSuccessStatusCode();
+        var user = await response.Content.ReadFromJsonAsync<User>();
+        return user!;
     }
 
     public Task<User> GetUserAsync(string userId)

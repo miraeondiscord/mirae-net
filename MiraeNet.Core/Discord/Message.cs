@@ -79,7 +79,7 @@ public class Message
     ///     Gets or sets the collection of channel mentions in the message.
     /// </summary>
     [JsonPropertyName("mention_channels")]
-    public required List<ChannelMention> MentionChannels { get; set; }
+    public List<ChannelMention>? MentionChannels { get; set; }
 
     /// <summary>
     ///     Gets or sets the collection of attachments in the message.

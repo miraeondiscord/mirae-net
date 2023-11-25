@@ -15,7 +15,7 @@ public interface IUserService
     ///     A <see cref="Task" /> representing an asynchronous operation, which upon completion,
     ///     will contain the <see cref="User" /> object for the retrieved user.
     /// </returns>
-    Task<User> GetMyUserAsync();
+    Task<User> GetCurrentUserAsync();
 
     /// <summary>
     ///     Get a Discord user by ID.

@@ -22,6 +22,11 @@ public class GatewayClient
         Heartbeat = new GatewayHeartbeat(this);
         Handshaker = new GatewayHandshaker(this);
         Identifier = new GatewayIdentifier(this);
+        SubscribeToEvent("READY", (_, _) =>
+        {
+            Logger.LogInformation("Gateway connection is ready.");
+            _state = GatewayClientState.Ready;
+        });
     }
 
     public GatewayHandshaker Handshaker { get; }
@@ -46,7 +51,6 @@ public class GatewayClient
         Task.Run(async () =>
         {
             while (_socket.State == WebSocketState.Open)
-            {
                 try
                 {
                     var bytes = new byte[409600]; // Discord sends big messages :P
@@ -56,9 +60,9 @@ public class GatewayClient
                 catch (Exception ex)
                 {
                     Logger.LogError(ex,
-                        "An unhandled exception occurred in the receiver thread. It has been caught and the thread will continue execution.");
+                        "An unhandled exception occurred in the receiver thread.\n" +
+                        "It has been caught and the thread will continue execution.");
                 }
-            }
         });
     }
 
@@ -150,7 +154,9 @@ public class GatewayClient
 
     private void OnWebSocketClose(WebSocketCloseStatus? closeStatus, string? closeDescription)
     {
-        Logger.LogInformation("Gateway connection closed: {closeDescription}", closeDescription);
+        Logger.LogInformation("Gateway connection closed: {closeStatus} {closeDescription}",
+            closeStatus,
+            closeDescription);
         // TODO: Differentiate abnormal and graceful close
         State = GatewayClientState.Closed;
     }

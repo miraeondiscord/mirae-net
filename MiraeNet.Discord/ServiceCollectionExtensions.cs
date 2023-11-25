@@ -21,6 +21,8 @@ public static class ServiceCollectionExtensions
 
         // Register services
         services.AddSingleton<IEventService, EventService>();
+        services.AddSingleton<IUserService, UserService>();
+        services.AddSingleton<IChannelService, ChannelService>();
         services.AddSingleton<AuthService>();
     }
 }
