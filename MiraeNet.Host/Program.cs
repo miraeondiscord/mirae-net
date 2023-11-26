@@ -7,7 +7,10 @@ using MiraeNet.OpenAI;
 
 var builder = Host.CreateApplicationBuilder();
 
-builder.Services.AddCore();
+builder.Services.AddCore(new AgentOptions
+{
+    SystemMessage = builder.Configuration["SystemMessage"]
+});
 builder.Services.AddDiscord(new DiscordOptions
 {
     ApiBaseUrl = builder.Configuration["Discord:ApiBaseUrl"],
